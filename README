@@ -11,4 +11,8 @@ The latter's enchantment level is basically what fraction the chance of receivin
 # Defense against circumvention
 
 In the pursuit of disallowing the acquirement of drop from the crops
-when they are destroyed not by the player directly, I've done.....
+when they are destroyed not by the player directly, I initially wanted to
+write a uniqie event that triggers during any block event, and if the said block is
+among crops and destroyed — I'd just cancel its loot. But it's a little too cumbersome,
+so I ended up just going over the events that I found when researching this problem and
+manually canceling them.

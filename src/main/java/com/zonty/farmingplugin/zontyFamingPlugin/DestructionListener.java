@@ -5,11 +5,14 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
@@ -24,6 +27,10 @@ public class DestructionListener implements Listener {
             Material.POTATOES,
             Material.BEETROOTS
     );
+
+    //
+    // PLAYER'S CROP DESTRUCTION HANDLER
+    //
 
 
     @EventHandler
@@ -133,6 +140,103 @@ public class DestructionListener implements Listener {
             Damageable meta = (Damageable) tool.getItemMeta();
             meta.setDamage(meta.getDamage() + 1);
             tool.setItemMeta(meta);
+        }
+    }
+
+    //
+    // CIRCUMVENTION PREVENTION
+    //
+
+    // The logic for the following handlers is the same:
+    // I go across every event that can feasibly get a crop destroyed.
+    // I make the event ignore the crop blocks and just manually replace them by air.
+
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+        event.blockList().removeIf(block -> {
+            if (CROPS.contains(block.getType())) {
+                block.setType(Material.AIR);
+                return true;
+            }
+            return false;
+        });
+    }
+
+    @EventHandler
+    public void onBlockExplode(BlockExplodeEvent event) {
+        event.blockList().removeIf(block -> {
+            if (CROPS.contains(block.getType())) {
+                block.setType(Material.AIR);
+                return true;
+            }
+            return false;
+        });
+    }
+
+    @EventHandler
+    public void onBlockBurn(BlockBurnEvent event) {
+        if (CROPS.contains(event.getBlock().getType())) {
+            event.setCancelled(true);
+            event.getBlock().setType(Material.AIR);
+        }
+    }
+
+    @EventHandler
+    public void onEntityChangeBlock(EntityChangeBlockEvent event) {
+        if (CROPS.contains(event.getBlock().getType())) {
+            event.setCancelled(true);
+            event.getBlock().setType(Material.AIR);
+        }
+    }
+
+    @EventHandler
+    public void onPistonExtend(BlockPistonExtendEvent event) {
+        for (Block block : event.getBlocks()) {
+            if (CROPS.contains(block.getType())) {
+                block.setType(Material.AIR);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPistonRetract(BlockPistonRetractEvent event) {
+        for (Block block : event.getBlocks()) {
+            if (CROPS.contains(block.getType())) {
+                block.setType(Material.AIR);
+            }
+        }
+    }
+
+    // Hereon because I thought it'd be funny to have crops immune to
+    // something that would certainly destroy them, I just start canceling events.
+    // Also it's easier than handling destruction logic lol
+
+    @EventHandler
+    public void onFarmlandTrample(BlockFadeEvent event) {
+        if (event.getBlock().getType() == Material.FARMLAND) {
+            if (event.getNewState().getType() == Material.DIRT) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerTrample(PlayerInteractEvent event) {
+        if (event.getAction() == Action.PHYSICAL) {
+            Block block = event.getClickedBlock();
+
+            if (block != null && block.getType() == Material.FARMLAND) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onWaterFlow(BlockFromToEvent event) {
+        Block to = event.getToBlock();
+
+        if (CROPS.contains(to.getType())) {
+            event.setCancelled(true);
         }
     }
 
