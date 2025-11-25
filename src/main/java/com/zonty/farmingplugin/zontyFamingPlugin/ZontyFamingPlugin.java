@@ -8,7 +8,7 @@ public final class ZontyFamingPlugin extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         System.out.println("Jeah boi");
-        getServer().getPluginManager().registerEvents(new DestructionListener);
+        getServer().getPluginManager().registerEvents(new DestructionListener(), this);
     }
 
     @Override

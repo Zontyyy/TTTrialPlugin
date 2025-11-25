@@ -1,2 +1,14 @@
 This is a test plugin for my tech team application. There is nothing really important in the README, but I'll list off some mechanics here
 
+# How it works
+
+The destruction listener looks out for crop-related blocks being destroyed by a player.
+Then it checks with which item the block was destroyed and whether it was enchanted.
+Fortune boosts the drop, durability boosts the, well, durability.
+The former's enchantment level elevates the maximum amount the additional, randomly picked drop, can have.
+The latter's enchantment level is basically what fraction the chance of receiving durability damage the item has.
+
+# Defense against circumvention
+
+In the pursuit of disallowing the acquirement of drop from the crops
+when they are destroyed not by the player directly, I've done.....
