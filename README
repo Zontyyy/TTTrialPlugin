@@ -16,3 +16,13 @@ write a uniqie event that triggers during any block event, and if the said block
 among crops and destroyed — I'd just cancel its loot. But it's a little too cumbersome,
 so I ended up just going over the events that I found when researching this problem and
 manually canceling them.
+
+# Plugin Toggling
+
+The last branch is the ability to toggle on/off the plugin for players individually,
+which persists through restarts and can be forcibly toggled by moderators.
+
+In order to add different roles as per a suggestion in the doc I'm using LuckPerms plugin.
+
+I made a group [mods]. They have a permission [togglefarm].
+This gives a full ability to manage other players by using a command [/toggle]

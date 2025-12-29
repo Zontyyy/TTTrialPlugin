@@ -2,3 +2,6 @@ name: ZontyFamingPlugin
 version: '1.0-SNAPSHOT'
 main: com.zonty.farmingplugin.zontyFamingPlugin.ZontyFamingPlugin
 api-version: '1.21'
+commands:
+  toggle:
+    description: Allows to toggle farm-drop for players on/off.

@@ -9,6 +9,7 @@ public final class ZontyFamingPlugin extends JavaPlugin {
         // Plugin startup logic
         System.out.println("Jeah boi");
         getServer().getPluginManager().registerEvents(new DestructionListener(), this);
+        getCommand("toggle").setExecutor(new ToggleCommand());
     }
 
     @Override
