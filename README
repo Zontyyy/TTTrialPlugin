@@ -26,3 +26,5 @@ In order to add different roles as per a suggestion in the doc I'm using LuckPer
 
 I made a group [mods]. They have a permission [togglefarm].
 This gives a full ability to manage other players by using a command [/toggle]
+
+The plugin interacts with player's persistent data, and it indeed persists through server restarts ^^

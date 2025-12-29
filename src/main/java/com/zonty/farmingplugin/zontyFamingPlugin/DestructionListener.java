@@ -2,6 +2,7 @@ package com.zonty.farmingplugin.zontyFamingPlugin;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -14,6 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Set;
 import java.util.Random;
@@ -36,6 +39,12 @@ public class DestructionListener implements Listener {
     @EventHandler
     public void onBreakEvent(BlockBreakEvent event) {
         Player player = event.getPlayer();
+        NamespacedKey key = new NamespacedKey("farmplugin", "toggled");
+        PersistentDataContainer container = player.getPersistentDataContainer();
+        if (container.getOrDefault(key, PersistentDataType.INTEGER, 1) == 0) {
+            return; // No crops will drop for the players who have the plugin disabled ^^
+        }
+
         Block block = event.getBlock();
         Material type = block.getType();
 

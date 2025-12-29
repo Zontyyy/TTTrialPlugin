@@ -7,9 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.NamespacedKey;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import javax.naming.Name;
 
 public class ToggleCommand implements CommandExecutor {
 
@@ -35,7 +33,7 @@ public class ToggleCommand implements CommandExecutor {
                 NamespacedKey key = new NamespacedKey("farmplugin", "toggled");
 
                 target.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, value ? 1: 0);
-                sender.sendMessage("Set flag for " + target.getName() + "to " + value + " successfully!");
+                sender.sendMessage("Set flag for " + target.getName() + " to " + value + " successfully!");
             }
             else {
                 player.sendMessage("Hello " + player.getName() + "! You don't have a persmission to use this command!");
